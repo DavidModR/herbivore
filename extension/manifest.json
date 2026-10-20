@@ -1,0 +1,55 @@
+{
+  "manifest_version": 3,
+  "name": "Herbivore: Hide Meat & Dairy While You Shop",
+  "short_name": "Herbivore",
+  "version": "1.0.0",
+  "description": "Going veggie or vegan? Hides meat, fish (and dairy in Vegan mode) on UK supermarket sites. A food helper, not a guarantee.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.sainsburys.co.uk/*",
+        "https://groceries.asda.com/*",
+        "https://www.asda.com/*",
+        "https://www.tesco.com/*",
+        "https://www.ocado.com/*",
+        "https://groceries.morrisons.com/*",
+        "https://www.morrisons.com/*",
+        "https://www.waitrose.com/*",
+        "https://www.aldi.co.uk/*",
+        "https://groceries.aldi.co.uk/*",
+        "https://www.amazon.co.uk/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Herbivore: filter this page",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "optional_host_permissions": [
+    "https://*/*"
+  ]
+}

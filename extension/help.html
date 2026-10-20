@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Herbivore: Help &amp; memory</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --line: #334155; --text: #f8fafc; --muted: #94a3b8; --soft: #cbd5e1; --green: #10b981; --mint: #34d399; --red: #f87171; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, sans-serif; }
+    main { max-width: 720px; margin: 0 auto; padding: 36px 16px 56px; }
+    h1 { margin: 0 0 4px; font-size: 28px; color: var(--mint); }
+    h2 { font-size: 17px; margin: 32px 0 10px; }
+    h3 { font-size: 14px; margin: 16px 0 6px; color: var(--soft); }
+    .lede, .muted { color: var(--muted); }
+    .lede { margin: 0 0 8px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+    .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .choice { background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 12px 14px; text-align: left; color: var(--text); font: inherit; cursor: pointer; }
+    .choice b { display: block; }
+    .choice span { color: var(--muted); font-size: 13px; }
+    .choice[aria-pressed="true"] { border-color: var(--green); background: #064e3b; }
+    .tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+    .tab { background: var(--card); color: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; font: 600 14px system-ui, sans-serif; cursor: pointer; }
+    .tab[aria-selected="true"] { background: var(--green); color: #022c22; border-color: var(--green); }
+    .items { display: flex; flex-wrap: wrap; gap: 6px; }
+    .item { display: inline-flex; align-items: center; gap: 6px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 3px 4px 3px 9px; font-size: 13px; max-width: 100%; }
+    .item span { overflow-wrap: anywhere; }
+    .item button { background: none; border: 0; color: var(--red); font-size: 15px; cursor: pointer; padding: 0 4px; line-height: 1; }
+    .item button:hover { color: #fff; }
+    .empty { color: #64748b; font-size: 13px; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .btn { border-radius: 8px; padding: 8px 12px; font: 700 13px system-ui, sans-serif; cursor: pointer; border: 1px solid var(--line); background: var(--card); color: var(--soft); }
+    .btn.blue { color: #38bdf8; border-color: #0284c7; }
+    .btn.purple { color: #a78bfa; border-color: #7c3aed; }
+    a.btn { text-decoration: none; display: inline-block; }
+    .btn.danger { color: #fecaca; background: #7f1d1d; border-color: #dc2626; }
+    .status { min-height: 21px; margin-top: 8px; font-size: 14px; color: var(--mint); }
+    .status.err { color: var(--red); }
+    ul { padding-left: 20px; color: var(--soft); }
+    .note { background: #451a03; border: 1px solid #92400e; color: #fde68a; border-radius: 10px; padding: 12px 14px; font-size: 14px; }
+    .kofi { display: inline-block; background: #ff5e5b; color: #fff; text-decoration: none; font-weight: 700; border-radius: 8px; padding: 8px 14px; }
+    .kofi:hover { background: #ff4743; }
+    [hidden] { display: none !important; }
+    @media (max-width: 520px) { .choices { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>🌱 Herbivore</h1>
+    <p class="lede" id="welcome" hidden>Welcome! Going veggie or vegan? Herbivore takes the meat (and dairy, in Vegan mode) out of sight while you shop, so the temptation isn't in front of you. Two quick choices and you're set.</p>
+    <p class="lede" id="helpIntro">Help, settings and everything you've taught Herbivore.</p>
+
+    <h2>Your diet</h2>
+    <div class="choices" role="group" aria-label="Diet">
+      <button class="choice" data-mode="vegetarian"><b>🥕 Vegetarian</b><span>Filter meat and fish</span></button>
+      <button class="choice" data-mode="vegan"><b>🌿 Strictly vegan</b><span>Also dairy, eggs and honey</span></button>
+    </div>
+
+    <h2>How products are filtered</h2>
+    <div class="choices" role="group" aria-label="Filtering">
+      <button class="choice" data-action="dim"><b>🌫️ Blur them</b><span>Photo blurred, name still readable</span></button>
+      <button class="choice" data-action="hide"><b>🙈 Hide them</b><span>Out of sight completely</span></button>
+    </div>
+    <div class="status" id="settingsStatus" aria-live="polite"></div>
+
+    <h2>Your saved items</h2>
+    <p class="muted" style="margin-top:0">Each mode keeps its own list, so a veggie and a vegan can share one browser. Click × to remove an item.</p>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-tab="vegetarian">🥕 Vegetarian</button>
+      <button class="tab" role="tab" data-tab="vegan">🌿 Vegan</button>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:4px">🚫 Products you flagged</h3>
+      <div class="items" data-list="blockedProducts"></div>
+      <h3>👁️ Products you chose to show</h3>
+      <div class="items" data-list="allowedProducts"></div>
+      <h3>🔑 Keywords you block everywhere</h3>
+      <div class="items" data-list="customBlockedWords"></div>
+      <div class="row">
+        <button class="btn danger" id="reset">Reset this mode's list</button>
+      </div>
+    </div>
+
+    <h2>Backup</h2>
+    <p class="muted" style="margin-top:0">Your lists live only in this browser. Export a copy to keep it safe, or to move it to another computer. Importing adds to what's here, it doesn't replace it.</p>
+    <div class="row" style="margin-top:0">
+      <button class="btn blue" id="export">💾 Export backup (.json)</button>
+      <button class="btn purple" id="import">📂 Import backup (.json)</button>
+      <input type="file" id="file" accept=".json,application/json" hidden>
+    </div>
+    <div class="status" id="backupStatus" aria-live="polite"></div>
+
+    <section id="sitesSection" hidden>
+      <h2>Sites you added</h2>
+      <p class="muted" style="margin-top:0">Herbivore also runs automatically on these.</p>
+      <div class="card"><div class="items" id="sites"></div></div>
+    </section>
+
+    <h2>How to use it</h2>
+    <ul>
+      <li>Works automatically on Sainsbury's, Asda, Tesco, Ocado, Morrisons, Waitrose, Aldi and Amazon UK groceries.</li>
+      <li>On any other shop, click the 🌱 toolbar icon. Pin it from the 🧩 puzzle-piece menu so it's always there.</li>
+      <li>Something slipped through? Hover over it and click <b>🚫 Not Veggie</b> / <b>🚫 Not Vegan</b>. You can also block a keyword from its name.</li>
+      <li>Something hidden that's fine? Click <b>👁️ Show</b>. A ❓ warning that's fine? Click <b>✓ Fine</b>.</li>
+      <li>Household items (tissues, cleaning, toiletries, pet food) are skipped: Herbivore is a food filter.</li>
+    </ul>
+
+    <h2>A helper, not a guarantee</h2>
+    <div class="note">Herbivore reads product names and the shop's own dietary icons, so it can miss things (gelatine in sweets, animal rennet in cheese) or filter things that are fine. Always check the ingredients, especially if you have an allergy. Your settings and lists stay in this browser and are never sent anywhere.</div>
+
+    <h2>Found a problem?</h2>
+    <p class="muted" style="margin-top:0">A product it missed, one it filtered wrongly, or a shop where it doesn't work? Reports make the built-in lists better for everyone.</p>
+    <div class="row" style="margin-top:0">
+      <a class="btn" href="https://github.com/DavidModR/herbivore/issues/new/choose" target="_blank" rel="noopener noreferrer">🐛 Report it on GitHub</a>
+      <a class="btn" href="mailto:herbivore.flashback667@aleeas.com">✉️ Email instead</a>
+    </div>
+
+    <h2>Like it?</h2>
+    <p class="muted" style="margin-top:0">Herbivore is free. If it's helping, you can buy me a coffee.</p>
+    <a class="kofi" href="https://ko-fi.com/davidrwh" target="_blank" rel="noopener noreferrer">☕ Buy me a coffee</a>
+  </main>
+  <script type="module" src="help.js"></script>
+</body>
+</html>

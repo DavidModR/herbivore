@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { margin: 0; width: 320px; background: #0f172a; color: #f8fafc; font: 13px sans-serif; }
+    .wrap { padding: 14px 16px; }
+    h1 { margin: 0 0 4px; font-size: 14px; color: #34d399; }
+    .site { color: #94a3b8; font-size: 12px; word-break: break-all; margin-bottom: 10px; }
+    .status { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 8px 10px; margin-bottom: 10px; line-height: 1.4; }
+    button { width: 100%; border: 0; border-radius: 8px; padding: 9px; font: 700 13px sans-serif; cursor: pointer; margin-bottom: 8px; }
+    .primary { background: #10b981; color: #022c22; }
+    .secondary { background: #1e293b; color: #cbd5e1; border: 1px solid #475569; }
+    .note { color: #64748b; font-size: 11px; line-height: 1.4; }
+    .footer { display: flex; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid #1e293b; }
+    .footer a, .footer button { flex: 1; text-align: center; border-radius: 8px; padding: 7px 6px; font: 700 12px sans-serif; text-decoration: none; cursor: pointer; }
+    .help { background: #1e293b; color: #cbd5e1; border: 1px solid #475569; }
+    .kofi { background: #ff5e5b; color: #fff; border: 0; }
+    .kofi:hover { background: #ff4743; }
+    [hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🌱 Herbivore</h1>
+    <div class="site" id="site"></div>
+    <div class="status" id="status">…</div>
+    <button class="primary" id="always" hidden></button>
+    <button class="secondary" id="stop" hidden>Stop running automatically here</button>
+    <div class="note" id="note">Chrome will ask to allow access to this site only. A helper, not a guarantee: always check the label.</div>
+    <div class="footer">
+      <button class="help" id="help">📖 Help &amp; saved items</button>
+      <a class="kofi" href="https://ko-fi.com/davidrwh" target="_blank" rel="noopener noreferrer">☕ Buy me a coffee</a>
+    </div>
+  </div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
