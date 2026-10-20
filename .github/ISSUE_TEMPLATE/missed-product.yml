@@ -1,0 +1,40 @@
+name: Missed product
+description: Herbivore showed a product that isn't vegetarian or vegan
+title: "Missed: "
+labels: ["missed-product"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks! These reports are how Herbivore's built-in lists get better.
+  - type: input
+    id: product
+    attributes:
+      label: Product name
+      description: Exactly as the shop shows it
+      placeholder: "e.g. M&S Collection Hampshire Down Lambchetta"
+    validations:
+      required: true
+  - type: dropdown
+    id: shop
+    attributes:
+      label: Shop
+      options: [Sainsbury's, Asda, Tesco, Ocado, Morrisons, Waitrose, Aldi, Amazon, Other]
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode you were using
+      options: [Vegetarian, Strictly Vegan]
+    validations:
+      required: true
+  - type: input
+    id: why
+    attributes:
+      label: Why it should be filtered (optional)
+      placeholder: "e.g. contains gelatine, it's a meat brand"
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot (optional)
+      description: Paste or drag a screenshot of the product tile
