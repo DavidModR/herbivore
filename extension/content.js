@@ -430,8 +430,9 @@
     ]
   };
 
-  // "Roast Beef Flavour", "Prawn Cocktail": crisps & snacks that are often veggie or vegan
-  const FLAVOUR_REGEX = /\b(flavou?r(?:ed)?|prawn cocktail|crisps)\b/i;
+  // "Roast Beef Flavour", "Prawn Cocktail Crisps": snacks that are often veggie or vegan. Needs
+  // a flavour or crisps word: a "Prawn Cocktail Sandwich" really does contain prawns.
+  const FLAVOUR_REGEX = /\b(flavou?r(?:ed)?|crisps)\b/i;
 
   // Not food: household, toiletries, baby, health, pet food & flowers. These skip every check
   // (including Ocado's "No V label"), so tissues or bin bags never get a warning. Brand names
