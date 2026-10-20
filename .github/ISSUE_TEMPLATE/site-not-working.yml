@@ -1,0 +1,29 @@
+name: Site not working
+description: Herbivore doesn't run, or looks broken, on a shop's website
+title: "Site: "
+labels: ["site-support"]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Page address
+      description: The shop page where it doesn't work (remove anything personal from the link)
+      placeholder: "https://www.example-shop.co.uk/groceries/..."
+    validations:
+      required: true
+  - type: dropdown
+    id: what
+    attributes:
+      label: What happens?
+      options:
+        - Nothing happens (no widget, nothing filtered)
+        - The widget shows "No products found"
+        - Products are filtered but the page looks broken
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details and screenshot
+      description: What you expected, what happened, and a screenshot if you can
