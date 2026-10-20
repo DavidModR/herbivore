@@ -1,0 +1,36 @@
+name: Wrongly filtered
+description: Herbivore blurred, hid or warned about a product that's actually fine
+title: "Wrongly filtered: "
+labels: ["false-positive"]
+body:
+  - type: input
+    id: product
+    attributes:
+      label: Product name
+      description: Exactly as the shop shows it
+      placeholder: "e.g. Heinz Red Kidney Beans 400g"
+    validations:
+      required: true
+  - type: dropdown
+    id: shop
+    attributes:
+      label: Shop
+      options: [Sainsbury's, Asda, Tesco, Ocado, Morrisons, Waitrose, Aldi, Amazon, Other]
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode you were using
+      options: [Vegetarian, Strictly Vegan]
+    validations:
+      required: true
+  - type: input
+    id: reason
+    attributes:
+      label: Reason Herbivore showed
+      description: The text on the red or orange badge, e.g. "Meat/Fish (kidney)"
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot (optional)
